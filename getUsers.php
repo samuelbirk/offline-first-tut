@@ -25,5 +25,5 @@ $users = array();
 while($t = mysql_fetch_assoc($r)){
 	$users[]=$t;
 }
-return json_encode($users);
+echo json_encode($users);
 ?>

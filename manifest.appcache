@@ -1,11 +1,11 @@
 CACHE MANIFEST
-# 2015-01-06 v1.0.0
+# 2015-01-06 v1.0.1
 
 #CACHE is where you specify all of the files that you want the browser to cache 
 CACHE:
 /index.html
 /js/angular.min.js
-/js/offline.js
+#/js/offline.js
 /js/user-controller.js
 /css/bootstrap.min.css
 /css/bootstrap-theme.min.css
