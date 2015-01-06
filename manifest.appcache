@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# 2015-01-06 v1.0.0
+
+#CACHE is where you specify all of the files that you want the browser to cache 
+CACHE:
+/index.html
+/js/angular.min.js
+/js/offline.js
+/js/user-controller.js
+/css/bootstrap.min.css
+/css/bootstrap-theme.min.css
+/fonts/glyphicons-halflings-regular.eot
+/fonts/glyphicons-halflings-regular.svg
+/fonts/glyphicons-halflings-regular.ttf
+/fonts/glyphicons-halflings-regular.wof
+#NETWORK is where  you specify any files that must have a network connection. * denotes that all files not specified in CACHE should only be accessed when there is connectivity
+
+NETWORK:
+ *
+
+#FALLBACK is where you indicate what files should be used in place of online files when offline
+#This might just be a 500 error page or something to let the user know that the page is not accessible because they are offline 
+FALLBACK:
+ 
