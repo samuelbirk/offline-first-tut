@@ -22,6 +22,9 @@ offlineApp.factory('offlineFactory',['$http',function($http){
 offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window, $rootScope, $log, offlineFactory) {
 	//set a variable that will be accessible when there is a change to the user table
 	$rootScope.userRequest;
+	$rootScope.userCleanRequest;
+
+	//watch for changes to userRequest and apply when appropriate
 
 	////////////////////////////////////////////////////
 	//
@@ -79,54 +82,67 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
 	    ***REMOVED***);
   ***REMOVED***, false);
 
+  	$rootScope.$watch('online',function(online_now,offline_before){
+  		if(online_now==true && offline_before==true){
+  			sync();
+  	***REMOVED***
+  ***REMOVED***);
   	//Send data from the browser that has not been sync'd and get data from the server
   	var sync = function(){
   		//set variable with dirty information
   		dirty = [];
-  		var userTransaction = db.transaction(["user"], "readwrite");
-        var userStore = userTransaction.objectStore("user");
+  		var dbRequest = indexedDB.open("offlineExample",1);
+  		//callback if the dbrequest completed successfully
+		dbRequest.onsuccess = function(e) {
+			//now that we have a database let's load it up with data from the server
+	        db = e.target.result;
+			
+	  		var userTransaction = db.transaction(["user"], "readwrite");
+	        var userStore = userTransaction.objectStore("user");
 
-        //loop through all of the votes in the browser and find those marked dirty to upload to the server
-        userStore.openCursor().onsuccess = function(event) {
-		    var cursor = event.target.result;
-		    if (cursor) {
-		    	if(cursor.value.dirty == 'dirty'){
-			    	dirty.push(cursor.value); //push the vote record into the dirty array
+	        //loop through all of the votes in the browser and find those marked dirty to upload to the server
+	        userStore.openCursor().onsuccess = function(event) {
+			    var cursor = event.target.result;
+			    if (cursor) {
+			    	if(cursor.value.dirty == 'dirty'){
+				    	dirty.push(cursor.value); //push the vote record into the dirty array
+				***REMOVED***
+			      cursor.continue();
+			    ***REMOVED***
+			    else {
+			    	
+			    	//we are finished looping so it is time to send the dirty records to the server
+		     		offlineFactory.postUsers(dirty).success(function (data) {
+		     			////////////////////////////////
+				        //
+				        //		GET CLEAN INFO
+				        //
+				        /////////////////////////////////
+				        //now that we have updated the server data let's update the browser data
+				        
+
+				        ///////////////////////////////////////////
+				        //	ADD ALL USER DATA TO BROWSER DB
+				        ///////////////////////////////////////////
+				        offlineFactory.getUsers().success(function(data){
+				        	var userCleanTransaction = db.transaction(["user"], "readwrite");
+	        				var userCleanStore = userCleanTransaction.objectStore("user");
+	        				//delete the existing info so we are nice and clean
+				        	$rootScope.userRequest = userCleanStore.clear();
+				        	//loop through the data returned by the server
+				        	for(i=0;i<data.length;i++){
+								//add the record to the browser db
+								data[i].id = data[i].id*1;//make sure that the id is set as an integer
+
+								$rootScope.userCleanRequest = userCleanStore.put(data[i],data[i].id);
+
+						***REMOVED***
+				        ***REMOVED***).error(function(error){
+				        	$log.error('There was an error downloading the user data.');
+				        	$log.error(error);
+				        ***REMOVED***);
+				    ***REMOVED***);
 			***REMOVED***
-		      cursor.continue();
-		    ***REMOVED***
-		    else {
-		    	//we are finished looping so it is time to send the dirty records to the server
-	     		offlineFactory.postUsers(dirty).success(function (data) {
-	     			////////////////////////////////
-			        //
-			        //		GET CLEAN INFO
-			        //
-			        /////////////////////////////////
-			        //now that we have updated the server data let's update the browser data
-			        
-
-			        ///////////////////////////////////////////
-			        //	ADD ALL USER DATA TO BROWSER DB
-			        ///////////////////////////////////////////
-			        offlineFactory.getUsers().success(function(data){
-			        	var userCleanTransaction = db.transaction(["user"], "readwrite");
-        				var userCleanStore = userCleanTransaction.objectStore("user");
-        				//delete the existing info so we are nice and clean
-			        	$rootScope.userRequest = userCleanStore.clear();
-			        	//loop through the data returned by the server
-			        	for(i=0;i<data.length;i++){
-							//add the record to the browser db
-							data[i].id = data[i].id*1;//make sure that the id is set as an integer
-
-							$rootScope.userCleanRequest = userCleanStore.put(data[i],data[i].id);
-
-					***REMOVED***
-			        ***REMOVED***).error(function(error){
-			        	$log.error('There was an error downloading the user data.');
-			        	$log.error(error);
-			        ***REMOVED***);
-			    ***REMOVED***);
 		***REMOVED***
 	***REMOVED***;
   ***REMOVED***
