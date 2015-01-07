@@ -86,13 +86,16 @@ offlineApp.controller('userCtrl',['$scope','$log','userFactory','offlineFactory'
 				userRequest.onsuccess = function(e) {//if successful write to the browser
 	 				var userTransaction = db.transaction(["user"], "readwrite");
 					var userStore = userTransaction.objectStore("user");
-					var request = userStore.put($scope.user,$scope.user.id);
+					
 					if($scope.editing.hasOwnProperty('id')){
+						var request = userStore.put($scope.user,$scope.user.id);
 						$scope.editing.name= $scope.user.name;
 						$scope.editing.dirty= $scope.user.dirty;
 						$scope.$apply();
 				***REMOVED***
 					else{
+						$scope.user.id = new Date().getTime();
+						var request = userStore.put($scope.user,$scope.user.id);
 						$scope.users.push($scope.user);
 						$scope.$apply();
 				***REMOVED***
@@ -109,7 +112,19 @@ offlineApp.controller('userCtrl',['$scope','$log','userFactory','offlineFactory'
 			offlineExampleRequest.onsuccess = function(e) {//if successful write to the browser
  				var userTransaction = db.transaction(["user"], "readwrite");
 				var userStore = userTransaction.objectStore("user");
-				var request = userStore.put($scope.user,$scope.user.id);
+				
+				if($scope.editing.hasOwnProperty('id')){
+					var request = userStore.put($scope.user,$scope.user.id);
+					$scope.editing.name= $scope.user.name;
+					$scope.editing.dirty= $scope.user.dirty;
+					$scope.$apply();
+			***REMOVED***
+				else{
+					$scope.user.id = new Date().getTime();
+					var request = userStore.put($scope.user,$scope.user.id);
+					$scope.users.push($scope.user);
+					$scope.$apply();
+			***REMOVED***
 		***REMOVED***
  	***REMOVED***
  ***REMOVED***//end of save function
