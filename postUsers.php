@@ -1,23 +1,6 @@
 ***REMOVED***
 
-***REMOVED***
-	$host='localhost';
-	$user='root';
-***REMOVED***
-	$dbname='offline_users';
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+include_once('include.php');
 
 $users = json_decode(file_get_contents("php://input"));
 foreach($users as $user){

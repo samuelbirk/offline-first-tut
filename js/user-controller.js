@@ -66,6 +66,15 @@ offlineApp.controller('userCtrl',['$scope','$log','userFactory','offlineFactory'
 	 				var userTransaction = db.transaction(["user"], "readwrite");
 					var userStore = userTransaction.objectStore("user");
 					var request = userStore.put($scope.user,$scope.user.id);
+					if($scope.editing.hasOwnProperty('id')){
+						$scope.editing.name= $scope.user.name;
+						$scope.editing.dirty= $scope.user.dirty;
+						$scope.$apply();
+				***REMOVED***
+					else{
+						$scope.users.push($scope.user);
+						$scope.$apply();
+				***REMOVED***
 			***REMOVED***
 
  		***REMOVED***).error(function (error){
@@ -74,18 +83,22 @@ offlineApp.controller('userCtrl',['$scope','$log','userFactory','offlineFactory'
  				//Save the data to the browser
  				var userRequest = indexedDB.open("offlineExample",1);//open the browser indexedDB
 
-				racRequest.onsuccess = function(e) {//if successful write to the browser
+				userRequest.onsuccess = function(e) {//if successful write to the browser
 	 				var userTransaction = db.transaction(["user"], "readwrite");
 					var userStore = userTransaction.objectStore("user");
 					var request = userStore.put($scope.user,$scope.user.id);
+					if($scope.editing.hasOwnProperty('id')){
+						$scope.editing.name= $scope.user.name;
+						$scope.editing.dirty= $scope.user.dirty;
+						$scope.$apply();
+				***REMOVED***
+					else{
+						$scope.users.push($scope.user);
+						$scope.$apply();
+				***REMOVED***
 			***REMOVED***
  		***REMOVED***);
- 			if($scope.editing.id){
- 				$scope.editing = $scope.user;
- 		***REMOVED***
- 			else{
- 				$scope.users.push($scope.user);
- 		***REMOVED***
+ 			
  	***REMOVED***//end of if online
  		else{
  			//we are offline so let's just mark it dirty and save it 
