@@ -11,7 +11,7 @@ create a new file in the directory called include.php
 
 copy and paste the following code changing the variables where appropriate
 
-<code>
+```php
 	<?php
 	function sql($query){
 		$host='localhost';
@@ -32,11 +32,11 @@ copy and paste the following code changing the variables where appropriate
 			return $result;
 	}
 	?>
-</code>
+```
 
 Create a new database called offline user and run the following sql
 
-<code>
+```mysql
 
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -53,4 +53,4 @@ CREATE TABLE `user` (
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-</code>
+```
