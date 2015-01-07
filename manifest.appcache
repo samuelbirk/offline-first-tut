@@ -1,20 +1,21 @@
 CACHE MANIFEST
-# 2015-01-06 v1.0.1
+# 2015-01-07 v1.0.2
 
 #CACHE is where you specify all of the files that you want the browser to cache 
 CACHE:
-/index.html
-/js/angular.min.js
-#/js/offline.js
-/js/user-controller.js
-/css/bootstrap.min.css
-/css/bootstrap-theme.min.css
-/fonts/glyphicons-halflings-regular.eot
-/fonts/glyphicons-halflings-regular.svg
-/fonts/glyphicons-halflings-regular.ttf
-/fonts/glyphicons-halflings-regular.wof
-#NETWORK is where  you specify any files that must have a network connection. * denotes that all files not specified in CACHE should only be accessed when there is connectivity
+index.html
+js/angular.min.js
+js/offline.js
+js/user-controller.js
+css/bootstrap.min.css
+css/bootstrap-theme.min.css
+css/offline.css
+fonts/glyphicons-halflings-regular.eot
+fonts/glyphicons-halflings-regular.svg
+fonts/glyphicons-halflings-regular.ttf
+fonts/glyphicons-halflings-regular.woff
 
+#NETWORK is where  you specify any files that must have a network connection. * denotes that all files not specified in CACHE should only be accessed when there is connectivity
 NETWORK:
  *
 

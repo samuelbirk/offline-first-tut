@@ -67,6 +67,12 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
 	/////////////////////////////////////////////////////////
 	//use the native browser indicator for whether it is online or offline
   	$rootScope.online = navigator.onLine;
+  	if($rootScope.online){
+  		$rootScope.online_offline_class = 'online';
+  	}
+  	else{
+  		$rootScope.online_offline_class = 'offline';
+  	}
 
   	//add an event listener to the window for when it changes to offline
   	$window.addEventListener("offline", function () {
@@ -82,9 +88,13 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
 	    });
   	}, false);
 
-  	$rootScope.$watch('online',function(online_now,offline_before){
-  		if(online_now==true && offline_before==true){
+  	$rootScope.$watch('online',function(online_now,online_before){
+  		if(online_now){
+  			$rootScope.online_offline_class = 'online';
   			sync();
+  		}
+  		else{
+  			$rootScope.online_offline_class = 'offline';
   		}
   	});
   	//Send data from the browser that has not been sync'd and get data from the server
@@ -100,12 +110,12 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
 	  		var userTransaction = db.transaction(["user"], "readwrite");
 	        var userStore = userTransaction.objectStore("user");
 
-	        //loop through all of the votes in the browser and find those marked dirty to upload to the server
+	        //loop through all of the users in the browser and find those marked dirty to upload to the server
 	        userStore.openCursor().onsuccess = function(event) {
 			    var cursor = event.target.result;
 			    if (cursor) {
 			    	if(cursor.value.dirty == 'dirty'){
-				    	dirty.push(cursor.value); //push the vote record into the dirty array
+				    	dirty.push(cursor.value); //push the user record into the dirty array
 					}
 			      cursor.continue();
 			    }
