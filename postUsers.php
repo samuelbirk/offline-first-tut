@@ -4,7 +4,7 @@ function sql($query){
 	$host='localhost';
 	$user='root';
 	$password='';
-	$dbname='offline';
+	$dbname='offline_users';
 	$cxn = mysql_connect($host, $user, $password, $dbname);
 	if(!$cxn){
 		die("Could not connect");

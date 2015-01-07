@@ -1,6 +1,8 @@
 offlineApp.factory('userFactory',['$http','$log',function($http,$log){
 	var userFactory = {};
-
+	userFactory.postUser = function(user){
+		return $http.post('postUser.php',user);
+	}
 	return userFactory;
 }]);
 offlineApp.controller('userCtrl',['$scope','$log','userFactory','offlineFactory',function($scope,$log,userFactory,offlineFactory){
@@ -49,15 +51,55 @@ offlineApp.controller('userCtrl',['$scope','$log','userFactory','offlineFactory'
  	}
 
  	$scope.save = function(){
- 		if($scope.user.id){
- 			$scope.editing.name = $scope.user.name;
- 			$scope.user = {};
- 		}
+ 		$scope.user.dirty_update_time = new Date().getTime();
+ 		$scope.user.dirty = 'dirty';
+ 		if($scope.online){
+ 			//we are online so let's try to save the data to the server
+ 			userFactory.postUser($scope.user).success(function (data) {
+ 				//the data saved succesfully so let's set the scope id to match the one on the server
+ 				$scope.user.id = data;//make sure it is set to an int
+ 				$scope.user.dirty = 'clean';
+ 				//Save the data to the browser
+ 				var userRequest = indexedDB.open("offlineExample",1);//open the browser indexedDB
+
+				userRequest.onsuccess = function(e) {//if successful write to the browser
+	 				var userTransaction = db.transaction(["user"], "readwrite");
+					var userStore = userTransaction.objectStore("user");
+					var request = userStore.put($scope.user,$scope.user.id);
+				}
+
+ 			}).error(function (error){
+ 				//something went wrong so let's just save it to the browser and mark it as dirty
+ 				$scope.user.dirty = 'dirty';
+ 				//Save the data to the browser
+ 				var userRequest = indexedDB.open("offlineExample",1);//open the browser indexedDB
+
+				racRequest.onsuccess = function(e) {//if successful write to the browser
+	 				var userTransaction = db.transaction(["user"], "readwrite");
+					var userStore = userTransaction.objectStore("user");
+					var request = userStore.put($scope.user,$scope.user.id);
+				}
+ 			});
+ 			if($scope.editing.id){
+ 				$scope.editing = $scope.user;
+ 			}
+ 			else{
+ 				$scope.users.push($scope.user);
+ 			}
+ 		}//end of if online
  		else{
- 			$scope.users.push($scope.user);
- 			$scope.user ={};
+ 			//we are offline so let's just mark it dirty and save it 
+			$scope.user.dirty = 'dirty';
+			//Save the data to the browser
+			var offlineExampleRequest = indexedDB.open("offlineExample",1);//open the browser indexedDB
+
+			offlineExampleRequest.onsuccess = function(e) {//if successful write to the browser
+ 				var userTransaction = db.transaction(["user"], "readwrite");
+				var userStore = userTransaction.objectStore("user");
+				var request = userStore.put($scope.user,$scope.user.id);
+			}
  		}
- 	}
+ 	}//end of save function
 
  	$scope.newUser = function(){
  		$scope.editing = {};
