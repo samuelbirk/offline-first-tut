@@ -1,4 +1,4 @@
-***REMOVED***
+<?php
 
 include_once('include.php');
 
@@ -10,6 +10,6 @@ while($t = mysql_fetch_assoc($r)){
 	$users[$i]=$t;
 	$users[$i]['dirty'] = 'clean';
 	$i++;
-***REMOVED***
+}
 echo json_encode($users);
-***REMOVED***
+?>

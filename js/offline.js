@@ -1,22 +1,22 @@
 function indexedDBOk() {
     return "indexedDB" in window;
-***REMOVED***
+}
 
 //create our angular application
 offlineApp = angular.module('offline',[]);
 
 //create a service for getting and updating our list of users
 offlineApp.factory('offlineFactory',['$http',function($http){
-	var offlineFactory = {***REMOVED***;
+	var offlineFactory = {};
 	offlineFactory.getUsers = function(){
 		return $http.get("getUsers.php");
-***REMOVED***
+	}
 
 	offlineFactory.postUsers = function(data){
 		return $http.post("postUsers.php",data);
-***REMOVED***
+	}
 	return offlineFactory;
-***REMOVED***]);
+}]);
 
 //create a controller for managing changes to our environment like going offline/online
 offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window, $rootScope, $log, offlineFactory) {
@@ -46,19 +46,19 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
 		    if(!db.objectStoreNames.contains("user")) {
 		    	//if it does not already exist create the table `user`
 		        db.createObjectStore("user");
-		    ***REMOVED***
-	***REMOVED***
+		    }
+		}
 		//callback if the dbrequest completed successfully
 		dbRequest.onsuccess = function(e) {
 			//now that we have a database let's load it up with data from the server
 	        db = e.target.result;
-	***REMOVED***
+		}
 
 		//callback if the dbrequest did not complete
 		dbRequest.onerror = function(e) {
 	        db = e.target.result;
-	***REMOVED***
-***REMOVED***
+		}
+	}
 
 	/////////////////////////////////////////////////////////
 	//
@@ -69,34 +69,34 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
   	$rootScope.online = navigator.onLine;
   	if($rootScope.online){
   		$rootScope.online_offline_class = 'online';
-  ***REMOVED***
+  	}
   	else{
   		$rootScope.online_offline_class = 'offline';
-  ***REMOVED***
+  	}
 
   	//add an event listener to the window for when it changes to offline
   	$window.addEventListener("offline", function () {
     	$rootScope.$apply(function() {
           	$rootScope.online = false;
-        ***REMOVED***);
-      ***REMOVED***, false);
+        	});
+      	}, false);
 
   	//add an event listener to the window for when it changes to online
   	$window.addEventListener("online", function () {
     	$rootScope.$apply(function() {
 	        $rootScope.online = true;
-	    ***REMOVED***);
-  ***REMOVED***, false);
+	    });
+  	}, false);
 
   	$rootScope.$watch('online',function(online_now,online_before){
   		if(online_now){
   			$rootScope.online_offline_class = 'online';
   			sync();
-  	***REMOVED***
+  		}
   		else{
   			$rootScope.online_offline_class = 'offline';
-  	***REMOVED***
-  ***REMOVED***);
+  		}
+  	});
   	//Send data from the browser that has not been sync'd and get data from the server
   	var sync = function(){
   		//set variable with dirty information
@@ -116,9 +116,9 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
 			    if (cursor) {
 			    	if(cursor.value.dirty == 'dirty'){
 				    	dirty.push(cursor.value); //push the user record into the dirty array
-				***REMOVED***
+					}
 			      cursor.continue();
-			    ***REMOVED***
+			    }
 			    else {
 			    	
 			    	//we are finished looping so it is time to send the dirty records to the server
@@ -146,14 +146,14 @@ offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window
 
 								$rootScope.userCleanRequest = userCleanStore.put(data[i],data[i].id);
 
-						***REMOVED***
-				        ***REMOVED***).error(function(error){
+							}
+				        }).error(function(error){
 				        	$log.error('There was an error downloading the user data.');
 				        	$log.error(error);
-				        ***REMOVED***);
-				    ***REMOVED***);
-			***REMOVED***
-		***REMOVED***
-	***REMOVED***;
-  ***REMOVED***
-***REMOVED***]);
+				        });
+				    });
+				}
+			}
+		};
+  	}
+}]);

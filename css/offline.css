@@ -5,7 +5,7 @@
   -webkit-transition: color .5s;
   /* For Safari 3.1 to 6.0 */
   transition: color .5s;
-***REMOVED***
+}
 .action_button:hover {
   color: #000066;
   cursor: pointer;
@@ -14,12 +14,12 @@
   -webkit-transform: scale(1.2, 1.2);
   /* Chrome, Safari, Opera */
   transform: scale(1.2, 1.2);
-***REMOVED***
+}
 
 .offline{
   color:red;
-***REMOVED***
+}
 
 .online{
   color:green;
-***REMOVED***;
+};

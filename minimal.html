@@ -9,22 +9,22 @@
 
 			//create a service for getting and updating our list of users
 			offlineApp.factory('offlineFactory',['$http',function($http){
-				var offlineFactory = {***REMOVED***;
+				var offlineFactory = {};
 
 				offlineFactory.getUsers = function(){
 					return $http.get("getUsers.php");
-			***REMOVED***
+				}
 				return offlineFactory;
-		***REMOVED***]);
+			}]);
 
 			//create a controller for managing changes to our environment like going offline/online
 			offlineApp.run(['$window','$rootScope','$log', 'offlineFactory',function($window, $rootScope, $log, offlineFactory) {
 				$rootScope.online = true;
-		***REMOVED***]);
+			}]);
 
 			offlineApp.controller('userCtrl',['$scope','$log','offlineFactory',function($scope,$log,offlineFactory){
 				$scope.name ='Sam';
-		***REMOVED***]);
+			}]);
 		</script>
 
 		<div ng-app='offline' ng-controller='userCtrl'>
