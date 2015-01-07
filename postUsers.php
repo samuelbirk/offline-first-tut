@@ -4,7 +4,7 @@
 	$host='localhost';
 	$user='root';
 ***REMOVED***
-	$dbname='offline';
+	$dbname='offline_users';
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
